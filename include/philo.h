@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 08:59:01 by armitite          #+#    #+#             */
-/*   Updated: 2025/01/01 18:46:15 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/01 21:16:37 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,8 @@ int	ft_atoi(const char *str);
 long long	time_now(void);
 int create_philo(t_philo **philo, t_data *test);
 int	ft_check_num(char **av, int ac);
+void    *routine(void *arg);
+void	print_message(t_philo *p, char *str);
+void	*monitoring(void *arg);
 
 #endif

@@ -8,7 +8,7 @@ RM = rm -rf
 SRC_DIR = src/
 OBJ_DIR = obj/
 
-SRC_FILES = main ft_atoi time thread
+SRC_FILES = main ft_atoi time thread routine monitoring
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))

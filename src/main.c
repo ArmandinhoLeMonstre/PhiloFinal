@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:12:10 by armitite          #+#    #+#             */
-/*   Updated: 2025/01/01 19:11:37 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/01 20:41:25 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int stock_args(t_data *data, int ac, char **av)
 		data->meals_nbr = -1;
 	data->death = 0;
 	data->meals_eaten = 0;
-	//&data->mutex_print = malloc(sizeof(pthread_mutex_t) * 1);
-	//data->mutex_data = malloc(sizeof(pthread_mutex_t) * 1);
 	if (pthread_mutex_init(&data->mutex_print, NULL) != 0)
         return (1);
 	if (pthread_mutex_init(&data->mutex_data, NULL) != 0)
@@ -68,7 +66,6 @@ int	init_philo(t_data *data)
 		philo[i] = malloc(sizeof(t_philo));
 		philo[i]->n = i + 1;
 		philo[i]->time = 0;
-		philo[i]->data = malloc(sizeof(t_data));
 		philo[i]->data = data;
 		philo[i]->left_fork = &data->mutex_forks[philo[i]->n - 1];
     	philo[i]->right_fork = &data->mutex_forks[philo[i]->n % data->p_total];
