@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:15:07 by armitite          #+#    #+#             */
-/*   Updated: 2025/01/01 18:46:03 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/01 19:47:05 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void	print_message(t_philo *p, char *str)
 {
+    int meals_check;
+    int death_check;
+    
 	pthread_mutex_lock(&p->data->mutex_print);
     pthread_mutex_lock(&p->data->mutex_data);
-    int meals_check = (p->data->meals_eaten == (p->data->meals_nbr * p->data->p_total));
-    int death_check = p->data->death;
+    meals_check = (p->data->meals_eaten == (p->data->meals_nbr * p->data->p_total));
+    death_check = p->data->death;
     pthread_mutex_unlock(&p->data->mutex_data);
     if (meals_check)
     {
@@ -30,6 +33,12 @@ void	print_message(t_philo *p, char *str)
     }
     pthread_mutex_unlock(&p->data->mutex_print);
 }
+void    one_philo(t_philo *p)
+{
+    print_message(p, "is taking fork");
+    ft_usleep(p->data->starving_t * 4);
+	//return (NULL);
+}
 
 void	sleep_n_think(t_philo *p)
 {
@@ -40,10 +49,20 @@ void	sleep_n_think(t_philo *p)
 
 void	eat(t_philo	*p)
 {
-	pthread_mutex_lock(p->right_fork);
-	print_message(p, "is taking fork");
-	pthread_mutex_lock(p->left_fork);
-	print_message(p, "is taking fork");
+	if (p->n % 2 == 0)
+	{
+		pthread_mutex_lock(p->left_fork);
+		print_message(p, "is taking fork");
+		pthread_mutex_lock(p->right_fork);
+		print_message(p, "is taking fork");
+	}
+	else
+	{
+		pthread_mutex_lock(p->right_fork);
+		print_message(p, "is taking fork");
+		pthread_mutex_lock(p->left_fork);
+		print_message(p, "is taking fork");
+	}
 	print_message(p, "is eating");
 	pthread_mutex_lock(&p->data->mutex_print);
     if (p->data->meals_eaten == (p->data->meals_nbr * p->data->p_total))
@@ -103,12 +122,18 @@ void	*monitoring(void *arg)
 void    *routine(void *arg)
 {
 	t_philo *p = (t_philo *)arg;
-//	pthread_mutex_lock(&p->data->mutex_data);
+	pthread_mutex_lock(&p->data->mutex_data);
 	p->time = time_now();
 	p->t_last_meal = time_now();
-	//pthread_mutex_unlock(&p->data->mutex_data);
+	pthread_mutex_unlock(&p->data->mutex_data);
 	if (p->n % 2 == 0)
 	    ft_usleep(150);
+    if (p->data->p_total == 1)
+	{
+		print_message(p, "is taking fork");
+    	ft_usleep(p->data->starving_t);
+		return (NULL);
+	}
 	while (1)
 	{
         pthread_mutex_lock(&p->data->mutex_print);
