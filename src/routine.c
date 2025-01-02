@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:53:38 by armitite          #+#    #+#             */
-/*   Updated: 2025/01/02 19:01:57 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/02 20:03:20 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	sleep_n_think(t_philo *p)
 	ft_usleep(p->data->sleeping_t);
 	print_message(p, "is thinking");
 	if (p->data->p_total % 2 && p->n % 2 == 0)
-		ft_usleep(2);
+		usleep(1000);
 }
 
 void	take_forks(t_philo *p)
@@ -26,16 +26,16 @@ void	take_forks(t_philo *p)
 	if (p->n % 2 == 0)
 	{
 		pthread_mutex_lock(p->left_fork);
-		print_message(p, "is taking fork");
+		print_message(p, "has taken a fork");
 		pthread_mutex_lock(p->right_fork);
-		print_message(p, "is taking fork");
+		print_message(p, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(p->right_fork);
-		print_message(p, "is taking fork");
+		print_message(p, "has taken a fork");
 		pthread_mutex_lock(p->left_fork);
-		print_message(p, "is taking fork");
+		print_message(p, "has taken a fork");
 	}
 }
 
@@ -67,7 +67,7 @@ int	routine_utils(t_philo *p)
 		ft_usleep(p->data->eating_t / 2);
 	if (p->data->p_total == 1)
 	{
-		print_message(p, "is taking fork");
+		print_message(p, "has taken a fork");
 		ft_usleep(p->data->starving_t);
 		return (1);
 	}
@@ -81,6 +81,8 @@ void	*routine(void *arg)
 	p = (t_philo *)arg;
 	if (routine_utils(p) == 1)
 		return (NULL);
+	if (p->n % 2 == 0)
+		usleep(1000);
 	while (1)
 	{
 		pthread_mutex_lock(&p->data->mutex_print);

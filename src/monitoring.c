@@ -6,19 +6,18 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 21:10:23 by armitite          #+#    #+#             */
-/*   Updated: 2025/01/02 17:11:19 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/02 22:42:02 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	monitoring_check(t_philo *p, t_data *data, long long last_meal)
+int	monitoring_check(t_philo *p, t_data *data)
 {
-	pthread_mutex_unlock(&data->mutex_data);
-	if ((time_now() - last_meal) > data->starving_t)
+	if ((time_now() - p->t_last_meal) >= data->starving_t)
 	{
 		data->death = 1;
-		printf("%lld %d is dead\n", (time_now() - p->time), p->n);
+		printf("%lld %d died\n", (time_now() - p->time), p->n);
 		pthread_mutex_unlock(&data->mutex_print);
 		return (1);
 	}
@@ -29,7 +28,6 @@ int	monitoring_check(t_philo *p, t_data *data, long long last_meal)
 		pthread_mutex_unlock(&data->mutex_print);
 		return (1);
 	}
-	pthread_mutex_unlock(&data->mutex_print);
 	return (0);
 }
 
@@ -38,7 +36,6 @@ void	*monitoring(void *arg)
 	t_philo		**p;
 	t_data		*data;
 	int			i;
-	long long	last_meal;
 
 	p = (t_philo **)arg;
 	data = p[0]->data;
@@ -46,15 +43,14 @@ void	*monitoring(void *arg)
 	while (1)
 	{
 		i = 0;
+		pthread_mutex_lock(&data->mutex_print);
 		while (i < data->p_total)
 		{
-			pthread_mutex_lock(&data->mutex_print);
-			pthread_mutex_lock(&data->mutex_data);
-			last_meal = p[i]->t_last_meal;
-			if (monitoring_check(p[i], data, last_meal) == 1)
+			if (monitoring_check(p[i], data) == 1)
 				return (NULL);
 			i++;
-			usleep(1000);
 		}
+		pthread_mutex_unlock(&data->mutex_print);
+		usleep(1000);
 	}
 }

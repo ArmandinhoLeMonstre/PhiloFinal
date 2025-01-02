@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 08:59:01 by armitite          #+#    #+#             */
-/*   Updated: 2025/01/02 18:09:48 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/02 22:41:30 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	t_data			*data;
 }					t_philo;
-
 
 int					ft_usleep(long long time);
 int					ft_atoi(const char *str);
