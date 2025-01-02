@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 19:15:22 by armitite          #+#    #+#             */
-/*   Updated: 2024/12/23 14:50:17 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:11:41 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ int	ft_usleep(long long time)
 		usleep(150);
 	return (1);
 }
-

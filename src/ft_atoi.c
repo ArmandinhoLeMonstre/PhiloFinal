@@ -6,7 +6,7 @@
 /*   By: armitite <armitite@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 21:37:26 by armitite          #+#    #+#             */
-/*   Updated: 2024/12/14 18:27:12 by armitite         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:53:50 by armitite         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ int	ft_atoi(const char *str)
 		res = res + (str[i] - 48);
 		i++;
 	}
+	if (res > 2147483647)
+		return (-1);
 	return (res * sign);
 }
